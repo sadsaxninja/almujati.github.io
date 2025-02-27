@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe with Spin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: black;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #fff;
+      margin-top: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      margin: 20px auto;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      font-size: 2em;
+      border: 2px solid #fff;
+      background-color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cell:hover {
+      background-color: #e0e0e0;
+    }
+
+    .cell.marked {
+      cursor: default;
+      background-color: #d1e7dd;
+    }
+
+    .spinner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .spinner {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid #333;
+      position: relative;
+      margin: 20px auto;
+      background: conic-gradient(#ff6f61 0%, #ff6f61 50%, #6bc1ff 50%, #6bc1ff 100%);
+      display: none; /* Initially hidden */
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px; /* Add margin for spacing */
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tic Tac Toe with Spin</h1>
+
+    <!-- Spinner -->
+    <div class="spinner-container" id="spinnerContainer">
+      <div class="spinner" id="spinner">
+        <div class="spinner-arrow"></div>
+      </div>
+      <button id="spinButton">Spin</button>
+    </div>
+
+    <!-- Board -->
+    <div class="board" id="board">
+      <!-- Cells will be dynamically generated -->
+    </div>
+
+    <!-- Result -->
+    <div class="result" id="result"></div>
+
+    <!-- Restart Button -->
+    <button id="restartButton">Restart Game</button>
+  </div>
+
+  <script>
+    const board = document.getElementById('board');
+    const result = document.getElementById('result');
+    const spinButton = document.getElementById('spinButton');
+    const restartButton = document.getElementById('restartButton');
+    const spinnerContainer = document.getElementById('spinnerContainer');
+
+    let currentPlayer = 'X';
+    let cells = [];
+    let gameActive = true;
+
+    // Initialize the board
+    function initializeBoard() {
+      board.innerHTML = '';
+      cells = [];
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleCellClick);
+        board.appendChild(cell);
+        cells.push(cell);
+      }
+      result.textContent = '';
+      gameActive = true;
+    }
+
+    // Handle cell click and AI move
+    function handleCellClick(event) {
+      if (!gameActive || event.target.textContent !== '') return;
+
+      const index = event.target.dataset.index;
+      cells[index].textContent = currentPlayer;
+      cells[index].classList.add('marked');
+
+      if (checkWin()) return; // Check for win after player's move
+      switchPlayer();
+    }
+
+    // Check for win condition
+    function checkWin() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]             // Diagonals
+      ];
+
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[b].textContent === cells[c].textContent) {
+          result.textContent = `${currentPlayer} wins!`; // Display win message
+          alert(`${currentPlayer} wins!`); // Splash screen for winner
+          gameActive = false; // Set gameActive to false
+          return true; // Return true if there's a win
+        }
+      }
+
+      if (!cells.some(cell => cell.textContent === '')) {
+        result.textContent = "It's a draw!"; // Display draw message
+        alert("It's a draw!"); // Splash screen for draw
+        gameActive = false; // Set gameActive to false
+        return true; // Return true if it's a draw
+      }
+
+      return false; // No win or draw
+    }
+
+    // Switch player and spin for the next symbol
+    function switchPlayer() {
+      spinButton.style.display = 'none'; // Hide spin button after the first spin
+      spinButton.disabled = true; // Disable spin button after the first spin
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X'; // Set current player to AI based on player's symbol
+
+      if (gameActive) {
+        aiMove(); // Call AI move after player
+      }
+    }
+
+    // Spin the wheel
+    spinButton.addEventListener('click', () => {
+      spinnerContainer.style.display = 'block'; // Show spinner when spinning
+      setTimeout(() => {
+        spinnerContainer.style.display = 'none'; // Hide spinner after a delay
+      }, 2000); // Adjust the delay as needed
+
+      const symbols = ['X', 'O'];
+      const randomIndex = Math.floor(Math.random() * symbols.length);
+      currentPlayer = symbols[randomIndex];
+
+      result.textContent = `You got ${currentPlayer}! Your turn.`;
+    });
+
+    // AI makes its move
+    function aiMove() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]             // Diagonals
+      ];
+
+      // Check for winning move
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (cells[a].textContent === 'O' && cells[b].textContent === 'O' && cells[c].textContent === '' && gameActive) {
+          cells[c].textContent = 'O';
+          cells[c].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+        if (cells[a].textContent === 'O' && cells[c].textContent === 'O' && cells[b].textContent === '' && gameActive) {
+          cells[b].textContent = 'O';
+          cells[b].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+        if (cells[b].textContent === 'O' && cells[c].textContent === 'O' && cells[a].textContent === '' && gameActive) {
+          cells[a].textContent = 'O';
+          cells[a].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+      }
+
+      // Block player's winning move
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (cells[a].textContent === 'X' && cells[b].textContent === 'X' && cells[c].textContent === '' && gameActive) {
+          cells[c].textContent = 'O';
+          cells[c].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+        if (cells[a].textContent === 'X' && cells[c].textContent === 'X' && cells[b].textContent === '' && gameActive) {
+          cells[b].textContent = 'O';
+          cells[b].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+        if (cells[b].textContent === 'X' && cells[c].textContent === 'X' && cells[a].textContent === '' && gameActive) {
+          cells[a].textContent = 'O';
+          cells[a].classList.add('marked');
+          if (checkWin()) return; // Check for win after AI's move
+          return;
+        }
+      }
+
+      // If no winning or blocking move, choose a random empty cell
+      const emptyCells = cells.filter(cell => cell.textContent === '');
+      if (emptyCells.length > 0) {
+        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        randomCell.textContent = 'O';
+        randomCell.classList.add('marked');
+        checkWin(); // Check for win after AI's move
+      }
+    }
+
+    // Restart the game
+    restartButton.addEventListener('click', initializeBoard);
