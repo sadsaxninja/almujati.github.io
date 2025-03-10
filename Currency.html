@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile-Friendly Currency Converter</title>
+    <title>Flag Currency Converter</title>
     <style>
         body {
             background: linear-gradient(135deg, #0a0a23 0%, #000033 100%);
@@ -18,7 +18,7 @@
 
         .converter-box {
             background: rgba(0, 30, 60, 0.8);
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             width: 95%;
@@ -32,26 +32,23 @@
         }
 
         .currency-block {
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
 
         .currency-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 0.5rem;
         }
 
         .currency-item {
-            padding: 1rem;
+            padding: 0.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             font-size: 0.9rem;
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .currency-item.active {
@@ -65,35 +62,33 @@
         }
 
         .currency-flag {
-            width: 64px;
-            height: 42px;
+            width: 48px;
+            height: 32px;
             margin-bottom: 0.5rem;
             border-radius: 3px;
-            object-fit: cover;
         }
 
         input[type="number"] {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1rem;
             margin: 1rem 0;
             border: none;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: #00f7ff;
-            font-size: 1.2rem;
-            text-align: center;
+            font-size: 1rem;
         }
 
         button.convert-btn {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1rem;
             background: #00f7ff;
             color: #0a0a23;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             margin: 1rem 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             transition: all 0.3s ease;
         }
@@ -112,29 +107,18 @@
             font-size: 1.1rem;
         }
 
-        /* Mobile-specific styles */
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .currency-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .currency-flag {
-                width: 50px;
-                height: 32px;
+                width: 40px;
+                height: 26px;
             }
             
             h1 {
-                font-size: 1.2rem;
-            }
-            
-            input[type="number"] {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            button.convert-btn {
-                padding: 1rem;
-                font-size: 1rem;
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -210,7 +194,7 @@
     </div>
 
     <script>
-        const API_KEY = '68dc2398de4593490b220b2e'; 
+        const API_KEY = '68dc2398de4593490b220b2e';
         const currencySymbols = {
             USD: '$',
             EUR: '€',
@@ -223,11 +207,10 @@
         let fromCurrency = 'USD';
         let toCurrency = 'EUR';
 
-        // Mobile-optimized currency selection
         document.querySelectorAll('.currency-grid').forEach(grid => {
             grid.addEventListener('click', (e) => {
-                const item = e.target.closest('.currency-item');
-                if (item) {
+                if (e.target.closest('.currency-item')) {
+                    const item = e.target.closest('.currency-item');
                     const parentGrid = item.parentElement.id;
                     const items = parentGrid === 'fromCurrencies' 
                         ? document.querySelectorAll('#fromCurrencies .currency-item')
@@ -262,9 +245,9 @@
                     const rate = data.conversion_rates[toCurrency];
                     const converted = (amount * rate).toFixed(2);
                     resultDiv.innerHTML = `
-                        <div class="result-line">${currencySymbols[fromCurrency]}${amount}</div>
-                        <div class="result-line">=</div>
-                        <div class="result-line">${currencySymbols[toCurrency]}${converted}</div>
+                        <div>${currencySymbols[fromCurrency]}${amount}</div>
+                        <div>=</div>
+                        <div>${currencySymbols[toCurrency]}${converted}</div>
                         <small>1 ${fromCurrency} = ${rate.toFixed(4)} ${toCurrency}</small>
                     `;
                 } else {
