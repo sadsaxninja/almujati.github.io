@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday, Faith</title>
+  <style>
+    :root {
+      --bg: #f5f0ff;
+      --accent: #9b59b6;
+      --accent2: #d8b4fe;
+      --card: #fff;
+      --text: #2b2b2b;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 10%, #f0e6ff, transparent 15%), var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(155,89,182,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    #giftStage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 32px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .gift {
+      width: 240px;
+      height: 240px;
+      position: relative;
+      perspective: 800px;
+      cursor: pointer;
+    }
+    .box, .lid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background: linear-gradient(180deg, var(--accent2), var(--accent));
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+    .box {
+      bottom: 0;
+      width: 200px;
+      height: 150px;
+      transform-origin: 50% 10%;
+      z-index: 1;
+    }
+    .lid {
+      top: 20px;
+      width: 220px;
+      height: 80px;
+      transform-origin: 50% 100%;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .ribbon {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 240px;
+      background: linear-gradient(to bottom, #fff, #b689d8, #fff);
+      top: 0;
+      border-radius: 4px;
+    }
+    .bow {
+      position: absolute;
+      left: 50%;
+      top: 14px;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 32px;
+      border-radius: 50%;
+      background: #b689d8;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .bow::before,
+    .bow::after {
+      content: '';
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #b689d8;
+    }
+    .bow::before {
+      left: -30px;
+      transform: rotate(-20deg);
+    }
+    .bow::after {
+      right: -30px;
+      transform: rotate(20deg);
+    }
+
+    .gift.open .lid {
+      animation: openLid 0.9s forwards cubic-bezier(0.2, 0.9, 0.19, 1);
+    }
+    .gift.open .box {
+      animation: popBox 0.6s 0.7s forwards cubic-bezier(0.2, 0.9, 0.19, 1);
+    }
+
+    @keyframes openLid {
+      to {
+        transform: rotateX(-80deg) translateY(-18px) scale(0.98);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      }
+    }
+    @keyframes popBox {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+      100% { transform: translateY(-6px); }
+    }
+
+    #contentStage {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      gap: 28px;
+      z-index: 2;
+    }
+
+    .puzzle-header {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(155, 89, 182, 0.3);
+      border: 4px solid white;
+      margin-bottom: 16px;
+    }
+
+    .memory-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .memory-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(155,89,182,0.2);
+    }
+
+    .memory-photo {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .memory-text {
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .continue-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      background: var(--accent);
+      border: 0;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      width: 180px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Timer Heart */
+    #timerHeart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      width: 100px;
+      height: 100px;
+      border-radius: 50% 50% 50% 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      transform: rotate(-45deg);
+      padding: 10px;
+    }
+
+    #timerHeart span {
+      transform: rotate(45deg);
+      display: block;
+    }
+
+    #timerHeart:hover {
+      transform: rotate(-45deg) scale(1.05);
+    }
+
+    .heart-bounce {
+      animation: bounce 0.6s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0% { transform: rotate(-45deg) translateY(0) scale(1); }
+      50% { transform: rotate(-45deg) translateY(-100px) scale(1.2); }
+      100% { transform: rotate(-45deg) translateY(0) scale(1); }
+    }
+
+    @media (max-width: 480px) {
+      .gift { width: 200px; height: 200px; }
+      .box { width: 170px; height: 130px; }
+      .lid { width: 190px; }
+      .memory-card { padding: 18px; }
+      .memory-photo { max-height: 180px; }
+      #timerHeart {
+        width: 80px;
+        height: 80px;
+        font-size: 8px;
+        top: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Stage 1: Gift -->
+  <div id="giftStage">
+    <div>
+      <h1 style="margin:0;font-size:24px">Happy Birthday, Faith 🎉</h1>
+      <p style="margin:6px 0 18px 0;opacity:.8">Click the gift to open your surprise</p>
+    </div>
+    <div class="gift" id="gift" role="button" tabindex="0" aria-label="Open gift box">
+      <div class="ribbon"></div>
+      <div class="lid"></div>
+      <div class="bow"></div>
+      <div class="box"></div>
+    </div>
+  </div>
+
+  <!-- Stage 2: Content -->
+  <div id="contentStage">
+    <!-- Puzzle 1 WITH SPLASH IMAGE ABOVE -->
+    <div class="panel" id="puzzle1">
+      <img src="https://i.ibb.co/SXg0K4rp/Whats-App-Image-2025-10-01-at-19-28-51-b1d910c8.jpg  " alt="Faith" class="puzzle-header">
+      <p>Unscramble the word to reveal what I love most about you 💭</p>
+      <div style="margin:12px 0; font-size:26px; letter-spacing:4px;" id="scrambled1"></div>
+      <div style="margin:12px 0; display:flex; gap:10px; justify-content:center; align-items:center;">
+        <input id="guess1" type="text" placeholder="your answer" autocomplete="off" />
+        <button id="check1">Go</button>
+      </div>
+      <p style="opacity:0.7; font-size:14px;">Hint: What i love making you do😏</p>
+    </div>
+
+    <!-- Memory 1: LAUGH (now uses beauty image) -->
+    <div class="memory-card hidden" id="memory1">
+      <img src="https://i.ibb.co/sdNLZvNs/Whats-App-Image-2025-09-24-at-23-45-33-76c865d5.jpg  " alt="Love" class="memory-photo">
+      <div class="memory-text">You make me laugh every moment of the day, all day with your jokes — even when you're not here. Your humor is real, and it's exactly what my soul needed.</div>
+      <button class="continue-btn" id="next1">Next 💖</button>
+    </div>
+
+    <!-- Puzzle 2 -->
+    <div class="panel hidden" id="puzzle2">
+      <p>Another piece of my heart 💖</p>
+      <div style="margin:12px 0; font-size:26px; letter-spacing:4px;" id="scrambled2"></div>
+      <div style="margin:12px 0; display:flex; gap:10px; justify-content:center; align-items:center;">
+        <input id="guess2" type="text" placeholder="your answer" autocomplete="off" />
+        <button id="check2">Go</button>
+      </div>
+      <p style="opacity:0.7; font-size:14px;">Hint: How you show love — through food, attention, and warmth 🍲</p>
+    </div>
+
+    <!-- Memory 2: CARES -->
+    <div class="memory-card hidden" id="memory2">
+      <img src="https://i.ibb.co/nNr3ytdd/Whats-App-Image-2025-09-03-at-23-03-32-26389f4a.jpg  " alt="Cares" class="memory-photo">
+      <div class="memory-text">You feed me, not just with food, but with love. The way you care just makes me feel seen, validated, and safe.</div>
+      <button class="continue-btn" id="next2">Next ✨</button>
+    </div>
+
+    <!-- Puzzle 3 -->
+    <div class="panel hidden" id="puzzle3">
+      <p>One more... this one takes my breath away ✨</p>
+      <div style="margin:12px 0; font-size:26px; letter-spacing:4px;" id="scrambled3"></div>
+      <div style="margin:12px 0; display:flex; gap:10px; justify-content:center; align-items:center;">
+        <input id="guess3" type="text" placeholder="your answer" autocomplete="off" />
+        <button id="check3">Go</button>
+      </div>
+      <p style="opacity:0.7; font-size:14px;">Hint: What stuns me every time you knock on my door 👁️</p>
+    </div>
+
+    <!-- Memory 3: BEAUTY (now uses laugh image) -->
+    <div class="memory-card hidden" id="memory3">
+      <img src="https://i.ibb.co/23H7dKMS/Whats-App-Image-2025-09-11-at-23-30-17-c980c1a1.jpg  " alt="Beauty" class="memory-photo">
+      <div class="memory-text">Every time you knock on my door, I’m stunned all over again — by your eyes, your smile, your laugh, your soul. Your beauty isn’t just skin deep; it radiates from who you are.</div>
+      <button class="continue-btn" id="next3">My Final Thoughts ❤️</button>
+    </div>
+
+    <!-- Final -->
+    <div class="memory-card hidden" id="finalScreen">
+      <img src="https://i.ibb.co/HDwfKfhy/Whats-App-Image-2025-09-01-at-18-34-49-9f9f85bd.jpg  " alt="Final" class="memory-photo">
+      <div class="memory-text" style="white-space: pre-line;">Faith,
+I love you more than words can ever describe. I wish I could understand the depth of where this love comes from, because it feels endless. I never imagined I could feel something so powerful — it’s both beautiful and a little scary.
+
+All my life, I’ve searched for this feeling, but I think I was always afraid of truly finding it. With you, though, everything feels natural — peaceful — right. I cherish every single moment we share, even if I don’t always show it the way I want to.
+
+I know I struggle to express my emotions sometimes, to show happiness the way I feel it inside. But with you, everything makes sense. You make sense. And I just wanted you to know that, completely and honestly…
+
+I love you. Always. ❤️</div>
+    </div>
+  </div>
+
+  <canvas class="confetti" id="confettiCanvas"></canvas>
+
+  <div class="hearts-container" id="heartsContainer"></div>
+
+  <!-- Hidden audio element -->
+  <audio id="bgMusic" loop>
+    <source src="https://drive.google.com/uc?export=download&id=1zeow9vkDcbR8pHo-6MJhNf2ozzpnq8Hw" type="audio/mpeg">
+  </audio>
+
+  <!-- Timer Heart -->
+  <div id="timerHeart"><span>We've been together:<br><span id="timerDisplay">0d 0h 0m</span></span></div>
+
+  <script>
+    const giftStage = document.getElementById('giftStage');
+    const contentStage = document.getElementById('contentStage');
+    const puzzle1 = document.getElementById('puzzle1');
+    const memory1 = document.getElementById('memory1');
+    const puzzle2 = document.getElementById('puzzle2');
+    const memory2 = document.getElementById('memory2');
+    const puzzle3 = document.getElementById('puzzle3');
+    const memory3 = document.getElementById('memory3');
+    const finalScreen = document.getElementById('finalScreen');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const answers = ['laugh', 'cares', 'beauty'];
+
+    function shuffleWord(word) {
+      return word.split('').sort(() => 0.5 - Math.random()).join('').toUpperCase().split('').join(' ');
+    }
+
+    document.getElementById('scrambled1').textContent = shuffleWord(answers[0]);
+    document.getElementById('scrambled2').textContent = shuffleWord(answers[1]);
+    document.getElementById('scrambled3').textContent = shuffleWord(answers[2]);
+
+    function openGift() {
+      document.getElementById('gift').classList.add('open');
+      // Play music on user interaction
+      bgMusic.play().catch(e => console.log("Autoplay blocked:", e));
+      setTimeout(() => {
+        giftStage.style.display = 'none';
+        contentStage.style.display = 'flex';
+        document.getElementById('guess1').focus();
+      }, 1100);
+    }
+
+    document.getElementById('gift').addEventListener('click', openGift);
+    document.getElementById('gift').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') openGift();
+    });
+
+    document.getElementById('next1').addEventListener('click', () => {
+      memory1.classList.add('hidden');
+      puzzle2.classList.remove('hidden');
+      document.getElementById('guess2').focus();
+    });
+
+    document.getElementById('next2').addEventListener('click', () => {
+      memory2.classList.add('hidden');
+      puzzle3.classList.remove('hidden');
+      document.getElementById('guess3').focus();
+    });
+
+    document.getElementById('next3').addEventListener('click', () => {
+      memory3.classList.add('hidden');
+      finalScreen.classList.remove('hidden');
+      startConfetti();
+    });
+
+    function setupPuzzle(guessId, checkId, answer, onSuccess) {
+      document.getElementById(checkId).addEventListener('click', () => {
+        const guess = document.getElementById(guessId).value.trim().toLowerCase();
+        if (guess === answer) {
+          onSuccess();
+        } else {
+          alert('Not quite… try again! 💗');
+          document.getElementById(guessId).select();
+        }
+      });
+
+      document.getElementById(guessId).addEventListener('keypress', e => {
+        if (e.key === 'Enter') document.getElementById(checkId).click();
+      });
+    }
+
+    setupPuzzle('guess1', 'check1', answers[0], () => {
+      puzzle1.classList.add('hidden');
+      memory1.classList.remove('hidden');
+    });
+
+    setupPuzzle('guess2', 'check2', answers[1], () => {
+      puzzle2.classList.add('hidden');
+      memory2.classList.remove('hidden');
+    });
+
+    setupPuzzle('guess3', 'check3', answers[2], () => {
+      puzzle3.classList.add('hidden');
+      memory3.classList.remove('hidden');
+    });
+
+    // Persistent confetti that never stops
+    let confettiActive = false;
+    function startConfetti() {
+      if (confettiActive) return;
+      confettiActive = true;
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      for (let i = 0; i < 80; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vy: 1 + Math.random() * 3,
+          angle: Math.random() * Math.PI * 2,
+          size: 4 + Math.random() * 8,
+          color: `hsl(${Math.random() * 360}, 85%, 65%)`
+        });
+      }
+
+      function animate() {
+        if (!confettiActive) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const p of pieces) {
+          p.y += p.vy;
+          p.x += Math.sin(p.angle) * 0.5;
+          if (p.y > canvas.height) p.y = -10;
+          if (p.x < -10) p.x = canvas.width + 10;
+          if (p.x > canvas.width + 10) p.x = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size * 0.6);
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('confettiCanvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Create floating hearts
+    function createFloatingHearts() {
+      const container = document.getElementById('heartsContainer');
+      
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(heart);
+      }
+    }
+
+    // Timer for days together
+    function updateTimer() {
+      const startDate = new Date('2025-09-01T13:00:00');
+      const now = new Date();
+      const diff = now - startDate;
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      
+      document.getElementById('timerDisplay').textContent = `${days}d ${hours}h ${minutes}m`;
+    }
+
+    // Timer heart animation
+    document.getElementById('timerHeart').addEventListener('click', function() {
+      this.classList.add('heart-bounce');
+      setTimeout(() => {
+        this.classList.remove('heart-bounce');
+      }, 600);
+    });
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      createFloatingHearts();
+      updateTimer();
+      setInterval(updateTimer, 60000); // Update every minute
+    });
+  </script>
+</body>
+</html>
