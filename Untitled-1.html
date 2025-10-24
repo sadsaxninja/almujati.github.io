@@ -266,7 +266,7 @@
       z-index: 10;
     }
 
-    /* Timer Heart */
+    /* Timer Square (was heart) */
     #timerHeart {
       position: fixed;
       top: 20px;
@@ -275,7 +275,7 @@
       color: white;
       width: 100px;
       height: 100px;
-      border-radius: 50% 50% 50% 0;
+      border-radius: 12px; /* Square with soft corners */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -286,17 +286,17 @@
       z-index: 20;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       transition: transform 0.2s;
-      transform: rotate(-45deg);
+      transform: none; /* No rotation */
       padding: 10px;
     }
 
     #timerHeart span {
-      transform: rotate(45deg);
       display: block;
+      transform: none; /* Upright text */
     }
 
     #timerHeart:hover {
-      transform: rotate(-45deg) scale(1.05);
+      transform: scale(1.05);
     }
 
     .heart-bounce {
@@ -304,9 +304,9 @@
     }
 
     @keyframes bounce {
-      0% { transform: rotate(-45deg) translateY(0) scale(1); }
-      50% { transform: rotate(-45deg) translateY(-100px) scale(1.2); }
-      100% { transform: rotate(-45deg) translateY(0) scale(1); }
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-100px) scale(1.2); }
+      100% { transform: translateY(0) scale(1); }
     }
 
     @media (max-width: 480px) {
@@ -321,6 +321,7 @@
         font-size: 8px;
         top: 10px;
         right: 10px;
+        border-radius: 10px;
       }
     }
   </style>
@@ -344,7 +345,7 @@
   <div id="contentStage">
     <!-- Puzzle 1 WITH SPLASH IMAGE ABOVE -->
     <div class="panel" id="puzzle1">
-      <img src="https://i.ibb.co/SXg0K4rp/Whats-App-Image-2025-10-01-at-19-28-51-b1d910c8.jpg  " alt="Faith" class="puzzle-header">
+      <img src="https://i.ibb.co/SXg0K4rp/Whats-App-Image-2025-10-01-at-19-28-51-b1d910c8.jpg    " alt="Faith" class="puzzle-header">
       <p>Unscramble the word to reveal what I love most about you 💭</p>
       <div style="margin:12px 0; font-size:26px; letter-spacing:4px;" id="scrambled1"></div>
       <div style="margin:12px 0; display:flex; gap:10px; justify-content:center; align-items:center;">
@@ -356,7 +357,7 @@
 
     <!-- Memory 1: LAUGH (now uses beauty image) -->
     <div class="memory-card hidden" id="memory1">
-      <img src="https://i.ibb.co/sdNLZvNs/Whats-App-Image-2025-09-24-at-23-45-33-76c865d5.jpg  " alt="Love" class="memory-photo">
+      <img src="https://i.ibb.co/sdNLZvNs/Whats-App-Image-2025-09-24-at-23-45-33-76c865d5.jpg    " alt="Love" class="memory-photo">
       <div class="memory-text">You make me laugh every moment of the day, all day with your jokes — even when you're not here. Your humor is real, and it's exactly what my soul needed.</div>
       <button class="continue-btn" id="next1">Next 💖</button>
     </div>
@@ -374,7 +375,7 @@
 
     <!-- Memory 2: CARES -->
     <div class="memory-card hidden" id="memory2">
-      <img src="https://i.ibb.co/nNr3ytdd/Whats-App-Image-2025-09-03-at-23-03-32-26389f4a.jpg  " alt="Cares" class="memory-photo">
+      <img src="https://i.ibb.co/nNr3ytdd/Whats-App-Image-2025-09-03-at-23-03-32-26389f4a.jpg    " alt="Cares" class="memory-photo">
       <div class="memory-text">You feed me, not just with food, but with love. The way you care just makes me feel seen, validated, and safe.</div>
       <button class="continue-btn" id="next2">Next ✨</button>
     </div>
@@ -392,14 +393,14 @@
 
     <!-- Memory 3: BEAUTY (now uses laugh image) -->
     <div class="memory-card hidden" id="memory3">
-      <img src="https://i.ibb.co/23H7dKMS/Whats-App-Image-2025-09-11-at-23-30-17-c980c1a1.jpg  " alt="Beauty" class="memory-photo">
+      <img src="https://i.ibb.co/23H7dKMS/Whats-App-Image-2025-09-11-at-23-30-17-c980c1a1.jpg    " alt="Beauty" class="memory-photo">
       <div class="memory-text">Every time you knock on my door, I’m stunned all over again — by your eyes, your smile, your laugh, your soul. Your beauty isn’t just skin deep; it radiates from who you are.</div>
       <button class="continue-btn" id="next3">My Final Thoughts ❤️</button>
     </div>
 
     <!-- Final -->
     <div class="memory-card hidden" id="finalScreen">
-      <img src="https://i.ibb.co/HDwfKfhy/Whats-App-Image-2025-09-01-at-18-34-49-9f9f85bd.jpg  " alt="Final" class="memory-photo">
+      <img src="https://i.ibb.co/HDwfKfhy/Whats-App-Image-2025-09-01-at-18-34-49-9f9f85bd.jpg    " alt="Final" class="memory-photo">
       <div class="memory-text" style="white-space: pre-line;">Faith,
 I love you more than words can ever describe. I wish I could understand the depth of where this love comes from, because it feels endless. I never imagined I could feel something so powerful — it’s both beautiful and a little scary.
 
@@ -420,9 +421,8 @@ I love you. Always. ❤️</div>
     <source src="https://drive.google.com/uc?export=download&id=1zeow9vkDcbR8pHo-6MJhNf2ozzpnq8Hw" type="audio/mpeg">
   </audio>
 
-  <!-- Timer Heart -->
-   <div id="timerHeart"><span>We've been together:<br><span id="timerDisplay">0d 0h 0m</span></span></div>
-
+  <!-- Timer Square -->
+  <div id="timerHeart"><span>We've been together:<br><span id="timerDisplay">0d 0h 0m</span></span></div>
 
   <script>
     const giftStage = document.getElementById('giftStage');
@@ -583,7 +583,7 @@ I love you. Always. ❤️</div>
       document.getElementById('timerDisplay').textContent = `${days}d ${hours}h ${minutes}m`;
     }
 
-    // Timer heart animation
+    // Timer square animation
     document.getElementById('timerHeart').addEventListener('click', function() {
       this.classList.add('heart-bounce');
       setTimeout(() => {
@@ -599,5 +599,4 @@ I love you. Always. ❤️</div>
     });
   </script>
 </body>
-
 </html>
