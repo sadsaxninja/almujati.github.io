@@ -1,226 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Takura Mujati - Back-end Developer Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
-            color: white;
-            transition: background-color 0.5s ease;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-        header {
-            background: transparent;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            text-align: center;
-        }
-        header h1 {
-            font-size: 3em;
-            margin: 0;
-            text-align: center;
-        }
-        header p {
-            font-size: 1.2em;
-            margin: 10px 0 0;
-        }
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: 20px;
-        }
-        .scroll-button {
-            background-color: white;
-            color: #333;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin-top: 20px;
-        }
-        .scroll-button:hover {
-            background-color: #ddd;
-            transform: translateY(-2px);
-        }
-        .scroll-button:active {
-            animation: jump 0.5s;
-        }
-        @keyframes jump {
-            0% { transform: translateY(0); }
-            20% { transform: translateY(-10px); }
-            40% { transform: translateY(0); }
-            60% { transform: translateY(-5px); }
-            80% { transform: translateY(0); }
-            100% { transform: translateY(0); }
-        }
-        section {
-            padding: 20px;
-            margin: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            color: #333;
-            display: none;
-        }
-        section:hover {
-            transform: translateY(-5px);
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .project-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-        .project-tile {
-            width: 45%;
-            margin: 10px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .project-tile:hover {
-            transform: translateY(-5px);
-        }
-        .project-tile img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .project-tile a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .project-tile a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 5px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            font-size: 14px;
-        }
-        .back-button {
-            background-color: white;
-            color: #333;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin-top: 20px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-        }
-        .back-button:hover {
-            background-color: #ddd;
-            transform: translateY(-2px);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Al Takura Mujati — Back-end Developer</title>
+  <meta name="description" content="Al Takura Mujati — Back-end developer. C++, C#, Java, JavaScript, TypeScript, Node.js, Python, React. Portfolio showcasing projects and contact info." />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#0f1720;
+      --muted:#9aa7b2;
+      --accent:#00d4ff;
+      --accent-2:#5b8cff;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxwidth:1100px;
+      --mono: 'Segoe UI Mono', 'Courier New', monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(11,15,20,0.7), transparent),
+                  linear-gradient(120deg,#071018 0%, #0b0f14 50%, #061018 100%);
+      color:#e6eef3; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      display:flex;flex-direction:column;align-items:center;padding:40px 18px;
+    }
+    .container{width:100%;max-width:var(--maxwidth)}
+
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#071018}
+    nav{display:flex;gap:12px}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:0.95rem}
+    nav a:hover{background:var(--glass);color:var(--accent)}
+
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;margin-bottom:28px}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:28px;border-radius:var(--radius);box-shadow:0 6px 30px rgba(2,6,10,0.6);backdrop-filter: blur(6px)}
+    h1{font-size:2.2rem;margin:0 0 8px}
+    p.lead{margin:0;color:var(--muted)}
+    .meta{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);padding:8px 10px;border-radius:999px;font-size:0.85rem;color:var(--muted)}
+
+    .profile-box{display:flex;flex-direction:column;align-items:center;gap:14px}
+    .avatar{width:180px;height:180px;border-radius:14px;object-fit:cover;border:4px solid rgba(255,255,255,0.04);box-shadow:0 10px 30px rgba(3,7,10,0.6);transition: box-shadow 0.3s ease;}
+    .avatar:hover{box-shadow:0 0 20px var(--accent), 0 0 40px var(--accent-2);}
+
+    .socials{display:flex;gap:12px}
+    .socials a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:var(--card);text-decoration:none;color:var(--muted);border:1px solid rgba(255,255,255,0.02);transition: box-shadow 0.3s ease;}
+    .socials a:hover{box-shadow:0 0 15px var(--accent), 0 0 30px var(--accent-2);}
+
+    main{display:grid;grid-template-columns:2fr 1fr;gap:22px}
+    .panel{background:var(--card);padding:18px;border-radius:12px}
+    h2{margin:0 0 12px}
+
+    .about p{color:var(--muted);line-height:1.6}
+
+    .stack{display:flex;flex-wrap:wrap;gap:10px}
+    .stack .item{background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);padding:8px 10px;border-radius:10px;font-family:var(--mono);font-size:0.85rem;color:var(--muted)}
+
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .proj{border-radius:12px;padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);display:flex;flex-direction:column;gap:8px;border:1px solid rgba(255,255,255,0.03);transition: box-shadow 0.3s ease, transform 0.3s ease;}
+    .proj:hover{box-shadow:0 0 20px var(--accent), 0 0 40px var(--accent-2);transform: translateY(-4px);}
+    .proj h3{margin:0;font-size:1.05rem}
+    .proj p{margin:0;color:var(--muted);font-size:0.95rem}
+    .proj .meta{margin-top:8px}
+    .proj a{font-size:0.9rem;color:var(--accent);text-decoration:none}
+
+    .right-section .card{margin-bottom:12px}
+    .contact-list{display:flex;flex-direction:column;gap:8px}
+    .contact-item{display:flex;align-items:center;gap:10px;color:var(--muted)}
+    .contact-item a{color:var(--accent);text-decoration:none}
+
+    footer{margin-top:28px;color:var(--muted);font-size:0.9rem;text-align:center}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      main{grid-template-columns:1fr}
+      .projects-grid{grid-template-columns:1fr}
+      .avatar{width:140px;height:140px}
+    }
+
+    .kbd{font-family:var(--mono);background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.02);font-size:0.85rem}
+
+    a:focus,button:focus{outline:2px solid rgba(0,212,255,0.14);outline-offset:2px}
+  </style>
 </head>
 <body>
-<header>
-    <div>
-        <h1>Welcome to Al Takura Mujati Portfolio</h1>
-        <p>Back-end Developer | C# | Python | SQL | C++ | Java | HTML</p>
-        <img src="upscaled_image.jpg" alt="Al Takura Mujati" class="profile-photo">
-        <button class="scroll-button" onclick="revealProjects()">See My Projects</button>
-    </div>
-</header>
-<section id="projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
-        <div class="project-tile">
-            <img src="image_2025-10-30_123547581.png" alt="Mary-Anne Hair Salon">
-            <h3>Sewandgrow</h3>
-            <p>Assisted with website updates, technical troubleshooting, and improving digital systems to support daily business operations.</p>
-            <a href="https://sewandgrow.co.za">Visit Website</a>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">AT</div>
+        <div>
+          <div style="font-weight:700">Al Takura Mujati</div>
+          <div style="font-size:0.85rem;color:var(--muted)">Back-end Developer</div>
         </div>
-        <div class="project-tile">
-            <h3>Simple Chat System</h3>
-            <p>Developed the back-end for a chat system enabling customer-business communication through a website.</p>
-            <a href="https://www.maryann.hair">Visit Website</a>
-        </div>
-        <div class="project-tile">
-            <img src="hair.jpg" alt="Mary-Anne Hair Salon">
-            <h3>Mary-Anne Hair Salon</h3>
-            <p>Worked as a back-end developer for a Beauty Salon website.</p>
-            <a href="https://www.maryann.hair">Visit Website</a>
-        </div>
-        <div class="project-tile">
-            <img src="tictia.jpg" alt="Tic-Tac-Toe Game">
-            <h3>Tic-Tac-Toe Game</h3>
-            <p>A simple yet engaging Tic-Tac-Toe game developed using back-end technologies.</p>
-            <a href="tictactoe.html">Play Game</a>
-        </div>
-         <div class="project-tile">
-            <img src="currr.png" alt="Currency convertor">
-            <h3>Currency Convertor</h3>
-            <p>Convert to your desired Currency.</p>
-            <a href="Currency.html">Use App</a>
-         </div>
-        <div class="project-tile">
-            <img src="urls.jpg" alt="URL Link Shortener">
-            <h3>URL Link Shortener</h3>
-            <p>A service to shorten long URLs for easier sharing and tracking.</p>
-            <a href="https://github.com/sadsaxninja/URL-Shortner.git">Check Code</a>
-        </div>
-        <div class="project-tile">
-            <img src="Weather.jpg" alt="Weather App">
-            <h3>Weather App</h3>
-            <p>A weather forecasting application providing real-time weather updates.</p>
-            <a href="Weatherapp.html">Check Weather</a>
-        </div>
-    </div>
-    <button class="back-button" onclick="hideProjects()">Back to Welcome Page</button>
-</section>
-<footer>
-    <p>Email: almujati02@gmail.com | Phone: 068234485 | © 2025 Al Takura Mujati</p>
-</footer>
-<script>
-    function revealProjects() {
-        const projectsSection = document.getElementById('projects');
-        projectsSection.style.display = 'block';
-        projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+      </div>
+      <nav aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#stack">Tech Stack</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
 
-    function hideProjects() {
-        const projectsSection = document.getElementById('projects');
-        projectsSection.style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-</script>
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Back-end developer focused on delivering reliable systems</h1>
+        <p class="lead">I build APIs, automation and data-driven backend services. I enjoy debugging, improving performance, and shipping code that scales.</p>
+
+        <div class="meta">
+          <div class="chip">C++</div>
+          <div class="chip">C#</div>
+          <div class="chip">Java</div>
+          <div class="chip">JavaScript & TypeScript</div>
+          <div class="chip">Node.js</div>
+          <div class="chip">Git</div>
+          <div class="chip">Python</div>
+          <div class="chip">HTML</div>
+          <div class="chip">CSS</div>
+          <div class="chip">React</div>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
+          <a class="cta" href="#projects">See projects</a>
+          <a class="cta" href="https://www.linkedin.com/in/al-mujati-494789224" target="_blank">LinkedIn</a>
+        </div>
+
+        <div style="margin-top:18px;color:var(--muted);font-size:0.9rem">Available roles: Web Developer, Software Developer, Software Tester, Back-end Developer • South Africa</div>
+      </div>
+
+      <aside class="profile-box">
+        <img class="avatar" src="upscaled_image.jpg" alt="Al Takura Mujati — profile photo">
+        <div style="text-align:center;color:var(--muted)">
+          <div style="font-weight:700">Al Takura Mujati</div>
+          <div style="font-size:0.9rem">Back-end Developer</div>
+        </div>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/al-mujati-494789224" aria-label="LinkedIn" target="_blank">in</a>
+        </div>
+      </aside>
+    </section>
+
+    <main>
+      <div>
+        <section id="about" class="panel about">
+          <h2>About</h2>
+          <p>I'm Al — a back-end developer with a Computer Science degree and hands-on experience building web applications and services. I specialise in backend architecture, APIs, database design, and automation. I enjoy improving reliability and performance, and I write clean, testable code.</p>
+        </section>
+
+        <section id="projects" class="panel" style="margin-top:14px">
+          <h2>Projects</h2>
+          <div class="projects-grid" aria-live="polite">
+
+            <article class="proj" aria-labelledby="proj-sewandgrow">
+              <h3 id="proj-sewandgrow">Sewandgrow</h3>
+              <p>Assisted with website updates, technical troubleshooting and improving systems to support daily operations.</p>
+              <a href="https://sewandgrow.co.za" target="_blank" rel="noopener">Visit site</a>
+            </article>
+
+            <article class="proj" aria-labelledby="proj-maryanne">
+              <h3 id="proj-maryanne">Mary-Anne Hair Salon</h3>
+              <p>Back-end work for appointment handling, form processing, and small-business tooling integration.</p>
+              <a href="https://www.maryann.hair" target="_blank" rel="noopener">Visit site</a>
+            </article>
+
+            <article class="proj" aria-labelledby="proj-shortener">
+              <h3 id="proj-shortener">URL Link Shortener</h3>
+              <p>A service that shortens long URLs for easier sharing and tracking. Includes basic analytics and redirects.</p>
+              <a href="https://github.com/sadsaxninja/URL-Shortner.git" target="_blank" rel="noopener">View code</a>
+            </article>
+
+            <article class="proj" aria-labelledby="proj-chat">
+              <h3 id="proj-chat">Simple Chat System</h3>
+              <p>Back-end for a customer-business chat system embedded in a website. Focus on message persistence and delivery.</p>
+            </article>
+
+            <article class="proj" aria-labelledby="proj-weather">
+              <h3 id="proj-weather">Weather App</h3>
+              <p>A weather forecasting application providing real-time weather updates.</p>
+              <a href="Weatherapp.html" target="_blank">Check Weather</a>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="right-section">
+        <div class="panel card">
+          <h2 id="stack">Tech Stack</h2>
+          <div class="stack" style="margin-top:10px">
+            <div class="item">C++</div>
+            <div class="item">C#</div>
+            <div class="item">Java</div>
+            <div class="item">JavaScript & TypeScript</div>
+            <div class="item">Node.js</div>
+            <div class="item">Git</div>
+            <div class="item">Python</div>
+            <div class="item">HTML</div>
+            <div class="item">CSS</div>
+            <div class="item">React</div>
+          </div>
+        </div>
+
+        <div class="panel card">
+          <h2 id="contact">Contact</h2>
+          <div class="contact-list">
+            <div class="contact-item">✉️ <a href="mailto:almujati02@gmail.com">almujati02@gmail.com</a></div>
+            <div class="contact-item">📞 <span class="kbd">+27 68 203 4485</span></div>
+            <div class="contact-item">📍 <span style="color:var(--muted)">South Africa</span></div>
+            <div style="margin-top:8px"><a class="cta" href="mailto:almujati02@gmail.com?subject=Portfolio%20Enquiry">Email me</a></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>© 2025 Al Takura Mujati — <span style="color:var(--muted)">Built with HTML & CSS • Hosted on GitHub Pages</span></div>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        const t = document.querySelector(this.getAttribute('href'));
+        if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    document.querySelector('.logo').setAttribute('tabindex','0');
+    document.querySelector('.logo').addEventListener('keydown', (e)=>{ if(e.key==='Enter') window.scrollTo({top:0,behavior:'smooth'})});
+  </script>
 </body>
 </html>
-
-
-
-
